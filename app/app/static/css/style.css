@@ -1,0 +1,129 @@
+body {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: sans-serif; /* Police sans-serif plus moderne */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Centre verticalement sur toute la hauteur de l'écran */
+    margin: 0; /* Supprime les marges par défaut du body */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    border-radius: 5px; /* Bords légèrement arrondis (facultatif) */
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    max-width: 200px; /* Ajustez la taille du logo */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.logo h1 {
+    font-size: 2em; /* Taille de police plus petite */
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    font-weight: normal; /* Police moins grasse */
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 300px; /* Largeur des champs de formulaire */
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 300px; /* Largeur des champs de formulaire */
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: center; /* Centre le texte à l'intérieur du champ */
+    /* Supprimez potentiellement la couleur de texte par défaut pour éviter un conflit avec le placeholder */
+    color: #000;
+}
+
+/* Style du placeholder (facultatif, pour une apparence plus subtile) */
+::placeholder {
+    color: #aaa;
+    opacity: 1; /* Pour les navigateurs qui le gèrent */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #aaa;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #aaa;
+}
+
+.button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease; /* Animation au survol */
+}
+
+.button.primary {
+    background-color: #000; /* Noir pour "Se connecter" */
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    width: 300px; /* Définir la même largeur que les champs */
+}
+
+.button.secondary {
+    background-color: #fff; /* Blanc pour "S'inscrire" */
+    color: #000;
+    border: 1px solid #000;
+    text-decoration: none;
+}
+
+.button:hover {
+    opacity: 0.8; /* Légère transparence au survol */
+}
+
+.signup-prompt {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signup-prompt p {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
