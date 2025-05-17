@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LITReview - Flux</title>
+    <title>LITReview - Créer un Ticket</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -30,7 +30,7 @@
                         <li><a href="{% url 'flux' %}">Flux</a></li>
                         <li><a href="#">Post</a></li>
                         <li><a href="#">Abonnement</a></li>
-                        <li><a href="{% url 'home' %}">Se déconnecter</a></li>
+                        <li><a href="{% url 'login' %}">Se déconnecter</a></li>
                     </ul>
                 </div>
             </div>
@@ -39,9 +39,33 @@
 
     <!-- Contenu principal -->
     <div class="container">
-        <h2>Flux</h2>
-        <!-- Placeholder for flux content - to be implemented in Phase 5 -->
-        <p>Contenu du flux à venir. Cette page affichera les tickets et commentaires une fois implémentée.</p>
+        <h2>Créer un ticket</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Titre</label>
+                {{ form.title }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Description</label>
+                {{ form.description }}
+                <span class="form-text">Max 2048 caractères</span>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.image.id_for_label }}">Image (facultatif)</label>
+                {{ form.image }}
+                <span class="form-text">Upload image</span>
+            </div>
+            <button type="submit" class="button primary">Envoyer</button>
+        </form>
+        <a href="{% url 'home' %}" class="button secondary small">Retour</a>
     </div>
 
     <!-- JavaScript pour gérer le menu déroulant -->
@@ -54,7 +78,6 @@
                 menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
             });
 
-            // Ferme le menu si on clique en dehors
             document.addEventListener('click', function(event) {
                 if (!toggle.contains(event.target) && !menu.contains(event.target)) {
                     menu.style.display = 'none';

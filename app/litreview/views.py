@@ -1,8 +1,13 @@
 # app/litreview/views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate
+from django.contrib import messages
+from .models import Ticket
+from .forms import TicketForm
+from .models import Review
+from .forms import ReviewForm
 
 def home(request):
     # Serve login form (Page 1) for unauthenticated users
@@ -31,4 +36,70 @@ def signup(request):
 @login_required
 def flux(request):
     # Placeholder for flux page (to be implemented in Phase 3)
-    return render(request, 'flux.html', {'message': 'Flux page (under construction)'})
+    return render(request, 'flux.html')
+
+@login_required
+def add_ticket(request, ticket_id=None):
+    if ticket_id:
+        ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
+    else:
+        ticket = None
+
+    if request.method == 'POST':
+        form = TicketForm(request.POST, request.FILES, instance=ticket)
+        if form.is_valid():
+            updated_ticket = form.save(commit=False)
+            if not ticket:  # New ticket
+                updated_ticket.user = request.user
+            updated_ticket.save()
+            return redirect('flux')
+    else:
+        form = TicketForm(instance=ticket) if ticket else TicketForm()
+    return render(request, 'add_ticket.html', {'form': form})
+
+@login_required
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
+    if request.method == 'POST':
+        ticket.delete()
+        return redirect('flux')
+    return render(request, 'confirm_delete_ticket.html', {'ticket': ticket})
+
+@login_required
+def add_review(request, ticket_id=None):
+    ticket = None
+    if ticket_id and ticket_id > 0:
+        ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            if ticket:
+                review.ticket = ticket
+            review.save()
+            return redirect('home')
+    else:
+        form = ReviewForm(initial={'ticket': ticket} if ticket else {})
+    return render(request, 'add_review.html', {'form': form, 'ticket': ticket})
+
+@login_required
+def edit_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('flux')
+    else:
+        form = ReviewForm(instance=review)
+    return render(request, 'add_review.html', {'form': form, 'ticket': review.ticket})
+
+@login_required
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('flux')
+    return render(request, 'confirm_delete_review.html', {'review': review})

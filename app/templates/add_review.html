@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LITReview - Créer un ticket</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="{% static 'images/+.png' %}" alt="Ajouter" class="header-icon">
+            <img src="{% static 'images/?.png' %}" alt="Aide" class="header-icon">
+        </div>
+        <div class="header-center">
+            <img src="{% static 'images/logo.png' %}" alt="LITReview Logo" class="logo-header">
+        </div>
+        <div class="header-right">
+            <nav class="menu">
+                <ul>
+                    <li><a href="#">Flux</a></li>
+                    <li><a href="#">Post</a></li>
+                    <li><a href="#">Abonnement</a></li>
+                    <li><a href="#">Se deconnecter</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Créer un ticket</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.titre.id_for_label }}">Titre</label><br>
+                {{ form.titre }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Description</label><br>
+                {{ form.description }}
+                <small class="form-text text-muted">Max 2048 caractères</small>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.image.id_for_label }}">Image (facultatif)</label><br>
+                {{ form.image }}
+                <button type="button" class="button secondary small">Upload image</button>
+            </div>
+            <button type="submit" class="button primary">Envoyer</button>
+        </form>
+        <a href="{% url 'home' %}" class="button secondary">Retour</a>
+    </div>
+</body>
+</html>
