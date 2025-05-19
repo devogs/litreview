@@ -4,7 +4,11 @@
 <html>
 <head>
     <title>LITReview - Créer un Ticket</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
+    <link rel="stylesheet" href="{% static 'css/star-rating.css' %}">
 </head>
 <body>
     <!-- En-tête -->
@@ -47,7 +51,7 @@
             {% endfor %}
         {% endif %}
 
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" class="form-wide" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="{{ form.title.id_for_label }}">Titre</label>
@@ -59,16 +63,15 @@
                 <span class="form-text">Max 2048 caractères</span>
             </div>
             <div class="form-group">
-                <label for="{{ form.image.id_for_label }}">Image (facultatif)</label>
+                <label for="{{ form.image.id_for_label }}">Image</label>
                 {{ form.image }}
-                <span class="form-text">Upload image</span>
             </div>
             <button type="submit" class="button primary">Envoyer</button>
         </form>
-        <a href="{% url 'home' %}" class="button secondary small">Retour</a>
+        <!-- <a href="{% url 'flux' %}" class="button secondary small">Retour</a> -->
     </div>
 
-    <!-- JavaScript pour gérer le menu déroulant -->
+    <!-- JavaScript pour gérer le menu déroulant (seul le script du dropdown reste) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const toggle = document.querySelector('.dropdown-toggle');

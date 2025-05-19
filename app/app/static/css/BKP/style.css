@@ -15,7 +15,7 @@ body {
     align-items: center;
     padding: 30px;
     border-radius: 5px;
-    margin-top: 80px;
+    margin-top: 40px; /* Réduit de 80px à 40px pour remonter le contenu */
 }
 
 .logo {
@@ -45,6 +45,10 @@ h2 {
 .form-group {
     margin-bottom: 15px;
     width: 300px;
+}
+
+.form-wide .form-group {
+    width: 800px; /* Conserver la taille actuelle */
 }
 
 .form-group input[type="text"],
@@ -143,9 +147,9 @@ h2 {
 }
 
 .header-left .header-icon {
-    width: 30px; /* Conserve la largeur */
-    height: auto; /* Supprime la hauteur fixe pour préserver l'aspect ratio */
-    cursor: pointer; /* Indique que l'icône est cliquable */
+    width: 30px;
+    height: auto;
+    cursor: pointer;
 }
 
 .header-center {
@@ -235,4 +239,18 @@ h2 {
     color: #000;
     resize: vertical;
     font-family: sans-serif;
+}
+
+/* Ajustement pour le bouton "Envoyer" dans les formulaires larges */
+.form-wide .button.primary {
+    width: 150px;
+    align-self: flex-end;
+}
+
+/* Supprimer les styles personnalisés du file input */
+.file-upload-wrapper,
+.file-upload-label,
+.file-upload-label span,
+.file-upload-label .browse-button {
+    display: none; /* Assure que les anciens styles ne s'appliquent pas */
 }

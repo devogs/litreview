@@ -66,23 +66,28 @@ def delete_ticket(request, ticket_id):
     return render(request, 'confirm_delete_ticket.html', {'ticket': ticket})
 
 @login_required
-def add_review(request, ticket_id=None):
-    ticket = None
-    if ticket_id and ticket_id > 0:
-        ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
-
+def add_review(request):
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
+        form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
+            # Create a Ticket for the book
+            ticket = Ticket.objects.create(
+                user=request.user,
+                title=form.cleaned_data['book_title'],
+                description="",  # Optional description for the ticket
+                image=request.FILES.get('image', None),  # Handle image upload
+            )
+            # Create the Review
             review = form.save(commit=False)
             review.user = request.user
-            if ticket:
-                review.ticket = ticket
+            review.ticket = ticket
+            review.rating = form.cleaned_data['rating']
             review.save()
-            return redirect('home')
+            messages.success(request, "Critique ajoutée avec succès!")
+            return redirect('flux')
     else:
-        form = ReviewForm(initial={'ticket': ticket} if ticket else {})
-    return render(request, 'add_review.html', {'form': form, 'ticket': ticket})
+        form = ReviewForm()
+    return render(request, 'add_review.html', {'form': form})
 
 @login_required
 def edit_review(request, review_id):

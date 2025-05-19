@@ -1,36 +1,49 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LITReview - Créer un ticket</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>LITReview - Créer une Critique</title>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
+    <link rel="stylesheet" href="{% static 'css/star-rating.css' %}">
 </head>
 <body>
+    <!-- En-tête -->
     <div class="header">
-        <div class="header-left">
-            <img src="{% static 'images/+.png' %}" alt="Ajouter" class="header-icon">
-            <img src="{% static 'images/?.png' %}" alt="Aide" class="header-icon">
-        </div>
-        <div class="header-center">
-            <img src="{% static 'images/logo.png' %}" alt="LITReview Logo" class="logo-header">
-        </div>
-        <div class="header-right">
-            <nav class="menu">
-                <ul>
-                    <li><a href="#">Flux</a></li>
-                    <li><a href="#">Post</a></li>
-                    <li><a href="#">Abonnement</a></li>
-                    <li><a href="#">Se deconnecter</a></li>
-                </ul>
-            </nav>
+        <div class="header-content">
+            <div class="header-left">
+                <div class="dropdown">
+                    <img src="{% static 'images/+b.png' %}" alt="Add Options" class="header-icon dropdown-toggle">
+                    <div class="dropdown-menu">
+                        <a href="{% url 'add_ticket' %}">Demander une critique</a>
+                        <a href="{% url 'add_review_no_ticket' %}">Créer une critique</a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-center">
+                <a href="{% url 'flux' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="LITRevu Logo" class="logo-header">
+                </a>
+            </div>
+            <div class="header-right">
+                <div class="menu">
+                    <ul>
+                        <li><a href="{% url 'flux' %}">Flux</a></li>
+                        <li><a href="#">Post</a></li>
+                        <li><a href="#">Abonnement</a></li>
+                        <li><a href="{% url 'login' %}">Se déconnecter</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Contenu principal -->
     <div class="container">
-        <h2>Créer un ticket</h2>
+        <h2>Créer une critique</h2>
 
         {% if messages %}
             {% for message in messages %}
@@ -38,25 +51,59 @@
             {% endfor %}
         {% endif %}
 
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" class="form-wide" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
-                <label for="{{ form.titre.id_for_label }}">Titre</label><br>
-                {{ form.titre }}
+                <label for="{{ form.book_title.id_for_label }}">Titre du livre</label>
+                {{ form.book_title }}
             </div>
             <div class="form-group">
-                <label for="{{ form.description.id_for_label }}">Description</label><br>
-                {{ form.description }}
-                <small class="form-text text-muted">Max 2048 caractères</small>
+                <label for="id_ticket_description">Description</label>
+                <textarea name="ticket_description" rows="5" class="form-control"></textarea>
+                <span class="form-text">Max 2048 caractères</span>
             </div>
             <div class="form-group">
-                <label for="{{ form.image.id_for_label }}">Image (facultatif)</label><br>
-                {{ form.image }}
-                <button type="button" class="button secondary small">Upload image</button>
+                <label for="id_image">Image</label>
+                <input type="file" name="image" id="id_image">
+            </div>
+            <div class="form-group">
+                <label for="{{ form.headline.id_for_label }}">Titre de la critique</label>
+                {{ form.headline }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.body.id_for_label }}">Description</label>
+                {{ form.body }}
+                <span class="form-text">Max 2048 caractères</span>
+            </div>
+            <div class="form-group">
+                <label>{{ form.rating.label }}</label>
+                <div class="star-rating">
+                    {% for value, label in form.rating.field.choices %}
+                        <input type="radio" name="rating" id="id_rating_{{ forloop.counter0 }}" value="{{ value }}" {% if form.rating.value == value|stringformat:"s" %}checked{% endif %}>
+                        <label for="id_rating_{{ forloop.counter0 }}">★</label>
+                    {% endfor %}
+                </div>
             </div>
             <button type="submit" class="button primary">Envoyer</button>
         </form>
-        <a href="{% url 'home' %}" class="button secondary">Retour</a>
     </div>
+
+    <!-- JavaScript pour gérer le menu déroulant -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.querySelector('.dropdown-toggle');
+            const menu = document.querySelector('.dropdown-menu');
+
+            toggle.addEventListener('click', function() {
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!toggle.contains(event.target) && !menu.contains(event.target)) {
+                    menu.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

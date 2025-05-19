@@ -1,0 +1,41 @@
+.star-rating {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+    flex-direction: row; /* Ensure this is applied */
+    justify-content: flex-start; /* Align left */
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.star-rating input[value="0"] + label {
+    font-size: 14px;
+    font-family: sans-serif;
+    color: #aaa;
+}
+
+.star-rating input[value="0"]:checked ~ label:not([for="id_rating_0"]),
+.star-rating input[value="0"] + label:hover ~ label:not([for="id_rating_0"]) {
+    color: #ccc;
+}
+
+/* Adjust selection and hover for row direction */
+.star-rating input[type="radio"]:checked + label,
+.star-rating input[type="radio"]:checked + label ~ label {
+    color: #000;
+}
+
+
+.star-rating label:hover,
+.star-rating label:hover + label {
+    color: #666;
+}
