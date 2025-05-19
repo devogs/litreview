@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Se connecter - LITRevu</title>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
+    <link rel="stylesheet" href="{% static 'css/star-rating.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="LITReview Logo">
+            <h1>LITRevu</h1>
+        </div>
+        <h2>Connectez-vous</h2>
+        {% if form.errors %}
+            <p class="error-message">Nom d'utilisateur ou mot de passe incorrect.</p>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}" class="form-control" placeholder="Nom d'utilisateur">
+            </div>
+            <div class="form-group">
+                <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}" class="form-control" placeholder="Mot de passe">
+            </div>
+            <button type="submit" class="button primary">Se connecter</button>
+        </form>
+        <div class="signup-prompt">
+            <p>Inscrivez-vous maintenant</p>
+            <button onclick="window.location.href='/signup/'" class="button secondary">S'inscrire</button>
+        </div>
+    </div>
+</body>
+</html>

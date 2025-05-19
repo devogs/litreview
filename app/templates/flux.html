@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LITReview - Flux</title>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
+    <link rel="stylesheet" href="{% static 'css/star-rating.css' %}">
+</head>
+<body>
+    <!-- En-tête -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="dropdown">
+                    <img src="{% static 'images/+b.png' %}" alt="Add Options" class="header-icon dropdown-toggle">
+                    <div class="dropdown-menu">
+                        <a href="{% url 'add_ticket' %}">Demander une critique</a>
+                        <a href="{% url 'add_review_no_ticket' %}">Créer une critique</a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-center">
+                <a href="{% url 'flux' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="LITRevu Logo" class="logo-header">
+                </a>
+            </div>
+            <div class="header-right">
+                <div class="menu">
+                    <ul>
+                        <li><a href="{% url 'flux' %}">Flux</a></li>
+                        <li><a href="#">Post</a></li>
+                        <li><a href="#">Abonnement</a></li>
+                        <li><a href="{% url 'home' %}">Se déconnecter</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="container">
+        <h2>Flux</h2>
+        <!-- Placeholder for flux content - to be implemented in Phase 5 -->
+        <p>Contenu du flux à venir. Cette page affichera les tickets et commentaires une fois implémentée.</p>
+    </div>
+
+    <!-- JavaScript pour gérer le menu déroulant -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.querySelector('.dropdown-toggle');
+            const menu = document.querySelector('.dropdown-menu');
+
+            toggle.addEventListener('click', function() {
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Ferme le menu si on clique en dehors
+            document.addEventListener('click', function(event) {
+                if (!toggle.contains(event.target) && !menu.contains(event.target)) {
+                    menu.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
