@@ -1,21 +1,14 @@
+{% extends 'base.html' %} {# Extend the base.html template #}
 {% load static %}
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Se connecter - LITRevu</title>
-    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
-    <link rel="stylesheet" href="{% static 'css/star-rating.css' %}">
-</head>
-<body>
+
+{% block title %}LITReview - Login{% endblock %} {# Set specific title for the login page #}
+
+{% block content %}
+    {# This content will be inserted into the {% block content %} in base.html #}
     <div class="container">
         <div class="logo">
             <img src="{% static 'images/logo.png' %}" alt="LITReview Logo">
-            <h1>LITRevu</h1>
+            <h1>LITReview</h1>
         </div>
         <h2>Connectez-vous</h2>
         {% if form.errors %}
@@ -36,5 +29,4 @@
             <button onclick="window.location.href='/signup/'" class="button secondary">S'inscrire</button>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

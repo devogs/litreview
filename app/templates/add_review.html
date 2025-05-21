@@ -1,47 +1,9 @@
-{% load static %}
+{% extends 'base_with_header.html' %} 
+{% load static %} 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>LITReview - Créer une Critique</title>
-    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
-    <link rel="stylesheet" href="{% static 'css/star-rating.css' %}">
-</head>
-<body>
-    <!-- En-tête -->
-    <div class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <div class="dropdown">
-                    <img src="{% static 'images/+b.png' %}" alt="Add Options" class="header-icon dropdown-toggle">
-                    <div class="dropdown-menu">
-                        <a href="{% url 'add_ticket' %}">Demander une critique</a>
-                        <a href="{% url 'add_review_no_ticket' %}">Créer une critique</a>
-                    </div>
-                </div>
-            </div>
-            <div class="header-center">
-                <a href="{% url 'flux' %}">
-                    <img src="{% static 'images/logo.png' %}" alt="LITRevu Logo" class="logo-header">
-                </a>
-            </div>
-            <div class="header-right">
-                <div class="menu">
-                    <ul>
-                        <li><a href="{% url 'flux' %}">Flux</a></li>
-                        <li><a href="#">Post</a></li>
-                        <li><a href="#">Abonnement</a></li>
-                        <li><a href="{% url 'login' %}">Se déconnecter</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+{% block title %}LITReview - Créer une critique{% endblock %} 
 
-    <!-- Contenu principal -->
+{% block content %}
     <div class="container">
         <h2>Créer une critique</h2>
 
@@ -87,23 +49,4 @@
             <button type="submit" class="button primary">Envoyer</button>
         </form>
     </div>
-
-    <!-- JavaScript pour gérer le menu déroulant -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.querySelector('.dropdown-toggle');
-            const menu = document.querySelector('.dropdown-menu');
-
-            toggle.addEventListener('click', function() {
-                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-            });
-
-            document.addEventListener('click', function(event) {
-                if (!toggle.contains(event.target) && !menu.contains(event.target)) {
-                    menu.style.display = 'none';
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+{% endblock %}

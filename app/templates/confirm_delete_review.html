@@ -1,27 +1,19 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>LITReview - Supprimer un Commentaire</title>
-    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
-    <link rel="stylesheet" href="{% static 'css/star-rating.css' %}"></head>
-<body>
-    <div class="container">
-        <div class="logo">
-            <h1>LITRevu</h1>
-        </div>
+{% extends 'base_with_header.html' %} 
+{% load static %} 
 
-        <h2>Supprimer un Commentaire</h2>
+{% block title %}LITReview - Supprimer une critique{% endblock %} 
+
+{% block content %}
+    <div class="container">
+
+        <h2>Supprimer une critique</h2>
         <p>Êtes-vous sûr de vouloir supprimer "{{ review.headline }}" ?</p>
 
         <form method="post">
             {% csrf_token %}
             <button type="submit" class="button primary">Confirmer la suppression</button>
         </form>
+        <p></p>
         <a href="{% url 'home' %}" class="button secondary">Annuler</a>
     </div>
-</body>
-</html>
+{% endblock %}
