@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}LITReview{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
+    <link rel="stylesheet" href="{% static 'css/star-rating.css' %}">
+    {# Favicon pour toutes les pages #}
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+</head>
+<body>
+    {# Ce bloc contiendra le header pour les pages qui en ont besoin #}
+    {% block header %}
+    {% endblock %}
+
+    <div class="container">
+        {% block content %}
+            {# Contenu par défaut pour la base si aucun template enfant ne le remplace #}
+            <p>Ceci est le contenu de base. Les pages enfants le remplaceront.</p>
+        {% endblock %}
+    </div>
+
+    {# Le JavaScript du menu déroulant a été déplacé vers base_with_header.html #}
+</body>
+</html>
