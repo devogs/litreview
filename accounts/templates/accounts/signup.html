@@ -1,0 +1,26 @@
+{% extends 'accounts/base_no_nav.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="text-center mb-4"> {# Ajusté la marge du logo #}
+                <img src="{% static 'img/logo.png' %}" alt="LitReview Logo" class="img-fluid" style="max-height: 100px;">
+            </div>
+            <div class="card shadow-sm p-4">
+                <h2 class="mt-4 mb-3 text-center">S'inscrire</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-dark w-100 mt-3">S'inscrire</button>
+                </form>
+                <div class="text-center mt-3">
+                    <a href="{% url 'login' %}" class="btn btn-outline-secondary w-100">Retour à la connexion</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

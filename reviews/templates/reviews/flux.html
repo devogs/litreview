@@ -1,0 +1,22 @@
+{% extends 'reviews/base.html' %}
+{% load review_extras %}
+
+{% block content %}
+    <div class="d-flex justify-content-around m-4">
+        <a href="{% url 'ticket-create' %}" class="btn btn-dark">Demander une critique</a>
+        <a href="{% url 'ticket-and-review-create' %}" class="btn btn-dark">Créer une critique</a>
+    </div>
+    {% if tickets_and_reviews %}
+        {% for instance in tickets_and_reviews %}
+            {% if instance|model_type == 'Ticket' %}
+                {% include 'reviews/partials/ticket_snippet.html' with ticket=instance home_page=True %} {# Added home_page=True #}
+            {% endif %}
+            {% if instance|model_type == 'Review' %}
+                {% include 'reviews/partials/review_snippet.html' with review=instance home_page=True %} {# Added home_page=True for consistency, though review_snippet doesn't use it yet #}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p class="text-center">Aucun contenu à afficher.</p>
+        <p class="text-center">Commencez par <a href="{% url 'ticket-create' %}">demander une critique</a>, ou <a href="{% url 'following' %}">suivez d'autres utilisateurs</a> !</p>
+    {% endif %}
+{% endblock %}

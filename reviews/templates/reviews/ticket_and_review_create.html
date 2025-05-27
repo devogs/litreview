@@ -1,0 +1,15 @@
+{% extends 'reviews/base.html' %}
+{% block content %}
+<h2 class="text-center m-4">Créer une critique</h2>
+<form method="post" enctype="multipart/form-data">
+    <h3>Livre / Article</h3>
+    {% include 'reviews/partials/ticket_form_snippet.html' with form=ticket_form %}
+    </br>
+    <h3>Critique</h3>
+    {% include 'reviews/partials/review_form_snippet.html' with form=review_form %}
+    {% csrf_token %}
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-dark m-2">Envoyer</button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'reviews/base.html' %} {# Extend the base template within your app's template folder #}
+
+{% block title %}Welcome to LitReview!{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Welcome to LitReview!</h1>
+    <p class="lead">
+        Your platform for sharing and discovering reviews of books and literary works.
+    </p>
+
+    <div class="card shadow-sm mt-5">
+        <div class="card-body">
+            <h5 class="card-title">Get Started</h5>
+            <p class="card-text">
+                Explore existing reviews or share your own thoughts on your favorite books.
+            </p>
+            <a href="#" class="btn btn-dark me-2">Browse Reviews</a>
+            <a href="#" class="btn btn-outline-secondary">Create a Review</a>
+        </div>
+    </div>
+
+    <div class="alert alert-info mt-4" role="alert">
+        This page is styled with Bootstrap!
+    </div>
+{% endblock %}
