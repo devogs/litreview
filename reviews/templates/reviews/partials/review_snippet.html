@@ -1,0 +1,47 @@
+{% load review_extras %}
+{% load static %}
+
+<div class="card m-2">
+    <div class="card-header bg-secondary text-white d-flex justify-content-between">
+        <span class="card-title">{% get_review_poster_display review.user %}</span>
+        <small>{{ review.time_created|format_date }}</small>
+    </div>
+    <div class="card-body">
+        <h3>{{ review.headline }} - {{ review.rating|show_rating }}</h3>
+        <p>{{ review.body }}</p>
+        <div class="card">
+            <p class="card-header">Ticket - {% get_poster_display review.ticket.user %}</p>
+            <div class="card-body">
+                <p>{{ review.ticket.title }}</p>
+                {% if review.ticket.image %}
+                    <img src="{{ review.ticket.image.url }}" alt="Ticket Image">
+                {% else %}
+                    <img src="{% static 'img/LITReview.png' %}" alt="Default Image">
+                {% endif %}
+
+                {% has_any_review_for_ticket review.ticket as any_review_exists %} {# Checks if ANYONE has reviewed this ticket #}
+                {% get_user_review_for_ticket review.ticket as user_review_instance %} {# Gets the current user's review for this ticket, or None #}
+
+                {# The following conditions are for interaction buttons related to this ticket #}
+                {% if home_page %} {# Only display these buttons on the flux page #}
+                    <div class="d-flex p-2 justify-content-end">
+                        {% if user_review_instance %} {# If current user has reviewed this ticket #}
+                            <a href="{% url 'review-update' user_review_instance.id %}" class="btn btn-dark">Modifier cette critique</a>
+                        {% elif not any_review_exists %} {# If no one has reviewed this ticket yet #}
+                            {# Ensure the ticket is not by the current user if you want to allow reviewing other users' tickets #}
+                            {% if review.ticket.user != user %}
+                                <a href="{% url 'review-create' review.ticket.id %}" class="btn btn-dark">Créer une critique</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if post_page %} {# Existing logic for 'Mes Posts' page #}
+            <div class="d-flex p-2 justify-content-end">
+                <a href="{% url 'review-update' review.id %}" class="btn btn-dark m-2">Modifier</a>
+                <a href="{% url 'review-delete' review.id %}" class="btn btn-danger m-2">Supprimer</a>
+            </div>
+        {% endif %}
+    </div>
+</div>

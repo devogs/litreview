@@ -1,3 +1,13 @@
+accounting==1.0.0
 asgiref==3.8.1
+crispy-bootstrap5==2025.4
 Django==5.2.1
+django-cleanup==9.0.0
+django-crispy-forms==2.4
+django-widget-tweaks==1.5.0
+gitdb==4.0.12
+GitPython==0.3.6
+pillow==11.2.1
+pypi-publisher==0.0.4
+smmap==5.0.2
 sqlparse==0.5.3
