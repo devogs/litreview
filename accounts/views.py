@@ -1,16 +1,34 @@
-# accounts/views.py 
+# accounts/views.py
+
 from django.shortcuts import render, redirect
-from django.contrib.auth import login # Import login for automatic login after signup
-from .forms import SignUpForm # Make sure this imports your corrected SignUpForm
-from django.contrib.auth import get_user_model # If you needed to get the user model here for other reasons
+from django.contrib.auth import login
+from .forms import SignUpForm
+
 
 def signup(request):
+    """
+    Handles user registration.
+
+    If the request method is POST, it attempts to validate and save
+    the user's registration form. If successful, the user is
+    automatically logged in and redirected to the 'flux' page.
+    If the form is invalid, it re-renders the signup page with errors.
+
+    If the request method is GET, it displays an empty registration form.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: Renders the signup page with the form, or
+                      redirects to 'flux' upon successful registration.
+    """
     if request.method == 'POST':
-        form = SignUpForm(request.POST) # Create instance of your form
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user) # Log the user in immediately after signup
-            return redirect('flux') # Redirect to your desired page after signup
+            login(request, user)
+            return redirect('flux')
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form': form})
