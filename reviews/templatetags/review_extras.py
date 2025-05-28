@@ -1,7 +1,7 @@
 # reviews/templatetags/review_extras.py
 from django import template
-from reviews.models import Review # Ensure Review model is imported here
-from django.db.models import Q # Add if not already there, for potential future complex queries
+from reviews.models import Review
+from django.db.models import Q
 
 register = template.Library()
 

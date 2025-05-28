@@ -1,3 +1,4 @@
+# reviews/forms.py
 from django import forms
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -24,21 +25,35 @@ class ReviewForm(forms.ModelForm):
 
 
 class UserFollowsForm(forms.ModelForm):
-    def __init__(self, user, data=None, *args, **kwargs):
-        if data is not None:
-            # Data must be mutable
-            data = data.copy()
-            user_to_follow = get_object_or_404(User, username=data['followed_user'])
-            if data['followed_user']:
-                data['followed_user'] = user_to_follow.id
+    followed_user = forms.CharField(
+        max_length=150,
+        label='Nom d\'utilisateur à suivre',
+        widget=forms.TextInput(attrs={'list': 'followed_users'})
+    )
 
-        super().__init__(data=data, *args, **kwargs)
-        # Suggestions list of other users we don't already follow
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
         self.choices = User.objects.all().exclude(
-            Q(followed_by__in=user.following.all()) |
-            Q(id=user.id)
+            Q(followed_by__in=self.user.following.all())
+            | Q(id=self.user.id)
         ).values('username')
-        self.fields['followed_user'].widget = forms.TextInput(attrs={'list': 'followed_users'})
+
+    def clean_followed_user(self):
+        username = self.cleaned_data['followed_user']
+        try:
+            user_to_follow = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise forms.ValidationError("Cet utilisateur n'existe pas.")
+
+        if user_to_follow == self.user:
+            raise forms.ValidationError("Vous ne pouvez pas vous suivre vous-même.")
+
+        if models.UserFollows.objects.filter(user=self.user, followed_user=user_to_follow).exists():
+            raise forms.ValidationError("Vous suivez déjà cet utilisateur.")
+
+        return user_to_follow
 
     class Meta:
         model = models.UserFollows
