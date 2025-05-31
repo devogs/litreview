@@ -1,8 +1,6 @@
 # reviews/views/utils_views.py
 from django.db.models import Q, Value, CharField
-# CHANGE THIS LINE:
-# from . import models # This was causing the error
-from reviews import models # CORRECT WAY to import models from the 'reviews' app
+from reviews import models
 
 
 def get_users_viewable_tickets(user):
