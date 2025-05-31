@@ -5,16 +5,13 @@
     <h2 class="text-center m-4">Suivre d'autres utilisateurs</h2>
     <form autocomplete="off" method="post" enctype="multipart/form-data">
         <div class="d-flex">
-        {% for field in form.visible_fields %}
-            <div class="form-group col-10 m-2">
-                {{ field|add_class:'form-control' }}
-                {% for error in field.errors %}
-                    <span class="help-block">{{ error }}</span>
-                {% endfor %}
-            </div>
-        {% endfor %}
-        {% csrf_token %}
-        <button type="submit" class="btn btn-dark m-2">Envoyer</button>
+            {% for field in form.visible_fields %}
+                <div class="form-group col-10 m-2">
+                    {{ field|add_class:'form-control' }}
+                </div>
+            {% endfor %}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-dark m-2">Envoyer</button>
         </div>
     </form>
     <datalist id="followed_users">
