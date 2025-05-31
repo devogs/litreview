@@ -1,6 +1,9 @@
 # reviews/views/main_views.py
 from itertools import chain
 
+from .utils_views import get_users_viewable_tickets, get_users_viewable_reviews
+
+from django.db.models import Value, CharField
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
@@ -11,29 +14,27 @@ from .. import forms, models
 @login_required
 def flux(request):
     """
-    Main page. Show a flux of tickets and reviews depending on the user's follows.
+    Main page. Show a flux of tickets and reviews depending on the user's follows
+    that use helper functions and annotate content type.
     """
-    user_follows = models.UserFollows.objects.filter(user=request.user).values('followed_user')
-    tickets = models.Ticket.objects.filter(
-        Q(user__in=user_follows) | Q(user=request.user)
-    )
-    reviews = models.Review.objects.filter(
-        Q(user__in=user_follows) | Q(user=request.user) | Q(ticket__user=request.user)
-    )
-    tickets_and_reviews = sorted(
+    tickets = get_users_viewable_tickets(request.user)
+    reviews = get_users_viewable_reviews(request.user)
+
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+
+    posts = sorted(
         chain(tickets, reviews),
         key=lambda instance: instance.time_created,
         reverse=True
     )
-    flux_page = True
+
     context = {
-        'tickets_and_reviews': tickets_and_reviews,
-        'flux_page': flux_page,
+        'posts': posts,
+        'flux_page': True,
         'navbar': 'flux',
     }
-    return render(request, 'reviews/flux.html',
-                  context)
-
+    return render(request, 'reviews/flux.html', context)
 
 @login_required
 def user_posts(request):
